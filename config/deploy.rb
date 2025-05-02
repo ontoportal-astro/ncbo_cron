@@ -1,4 +1,4 @@
-set :author, "ontoportal-lirmm"
+set :author, "ontoportal-astro"
 set :application, "ncbo_cron"
 set :repo_url, "https://github.com/#{fetch(:author)}/#{fetch(:application)}.git"
 
@@ -8,7 +8,7 @@ set :deploy_via, :remote_cache
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
 # Default deploy_to directory is /var/www/my_app_name
-set :deploy_to, "/srv/ontoportal/ncbo_cron_deployments"
+set :deploy_to, "/opt/ontoportal/ncbo_cron"
 
 # Default value for :log_level is :debug
 set :log_level, :debug
@@ -28,31 +28,20 @@ set :config_folder_path, "#{fetch(:application)}/#{fetch(:stage)}"
 
 # If you want to restart using `touch tmp/restart.txt`, add this to your config/deploy.rb:
 
-SSH_JUMPHOST = ENV.include?('SSH_JUMPHOST') ? ENV['SSH_JUMPHOST'] : 'jumpbox.lirmm.fr'
-SSH_JUMPHOST_USER = ENV.include?('SSH_JUMPHOST_USER') ? ENV['SSH_JUMPHOST_USER'] : 'sbouazzouni'
+# SSH_JUMPHOST = ENV.include?('SSH_JUMPHOST') ? ENV['SSH_JUMPHOST'] : 'jumpbox.lirmm.fr'
+# SSH_JUMPHOST_USER = ENV.include?('SSH_JUMPHOST_USER') ? ENV['SSH_JUMPHOST_USER'] : 'sbouazzouni'
+# JUMPBOX_PROXY = "#{SSH_JUMPHOST_USER}@#{SSH_JUMPHOST}"
 
-JUMPBOX_PROXY = "#{SSH_JUMPHOST_USER}@#{SSH_JUMPHOST}"
 set :ssh_options, {
   user: 'ontoportal',
-  forward_agent: 'true',
   keys: %w(config/deploy_id_rsa),
   auth_methods: %w(publickey),
-  # use ssh proxy if API servers are on a private network
-  proxy: Net::SSH::Proxy::Command.new("ssh #{JUMPBOX_PROXY} -W %h:%p")
+#   forward_agent: 'true',
+#   proxy: Net::SSH::Proxy::Command.new("ssh #{JUMPBOX_PROXY} -W %h:%p")
 }
 
 # private git repo for configuraiton
 PRIVATE_CONFIG_REPO = ENV.include?('PRIVATE_CONFIG_REPO') ? ENV['PRIVATE_CONFIG_REPO'] : 'https://your_github_pat_token@github.com/your_organization/ontoportal-configs.git'
-desc "Check if agent forwarding is working"
-task :forwarding do
-  on roles(:all) do |h|
-    if test("env | grep SSH_AUTH_SOCK")
-      info "Agent forwarding is up to #{h}"
-    else
-      error "Agent forwarding is NOT up to #{h}"
-    end
-  end
-end
 
 # Smoke test for checking if the service is up
 desc 'Smoke test: Check if ncbo_cron service is running'
