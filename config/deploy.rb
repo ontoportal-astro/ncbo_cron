@@ -20,6 +20,11 @@ set :log_level, :debug
 # set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 set :linked_dirs, %w{log vendor/bundle tmp/pids tmp/sockets public/system}
 
+# Default value for default_env is {}
+# set :default_env, { path: "/opt/ruby/bin:$PATH" }
+set :default_env, {
+  'PATH' => "/usr/local/rbenv/shims:/usr/local/rbenv/bin:/usr/bin:$PATH"
+}
 
 # Default value for keep_releases is 5
 set :keep_releases, 5
@@ -82,7 +87,7 @@ namespace :deploy do
     on roles(:app), in: :sequence, wait: 5 do
       # Your restart mechanism here, for example:
       # execute :touch, release_path.join('tmp/restart.txt')
-      execute 'sudo systemctl restart ncbo_cron'
+      execute 'sudo systemctl restart ncbo_cron.service'
       execute 'sleep 5'
     end
   end
