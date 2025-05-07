@@ -4,8 +4,8 @@
 # server in each group is considered to be the first
 # unless any hosts have the primary property set.
 # Don't declare `role :all`, it's a meta role
-role :app, %w{testportal.lirmm.fr}
-set :branch, ENV.include?('BRANCH') ? ENV['BRANCH'] : 'development'
+role :app, %w{test-ontoportal-astro.eu}
+set :branch, ENV.include?('BRANCH') ? ENV['BRANCH'] : 'test'
 # Extended Server Syntax
 # ======================
 # This can be used to drop a more detailed server
