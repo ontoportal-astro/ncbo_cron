@@ -11,7 +11,7 @@ gem 'google-analytics-data', '0.6.0'
 gem 'google-protobuf', '3.25.3'
 gem 'grpc', '1.70.1'
 gem 'mail', '2.6.6'
-gem 'multi_json'
+gem 'multi_json', '1.19.1'
 gem 'oj'
 gem 'parseconfig'
 gem 'pony'
@@ -28,10 +28,10 @@ gem 'activesupport', '~> 5.0'
 gem 'rackup'
 
 
-gem 'goo', github: 'ontoportal-lirmm/goo', branch: 'development'
-gem 'ontologies_linked_data', github: 'ontoportal-lirmm/ontologies_linked_data', branch: 'development'
-gem 'sparql-client', github: 'ontoportal-lirmm/sparql-client', branch: 'development'
-gem 'ncbo_annotator', github: 'ontoportal-lirmm/ncbo_annotator', branch: 'development'
+gem 'goo', github: 'agroportal/goo', branch: 'development'
+gem 'ontologies_linked_data', github: 'agroportal/ontologies_linked_data', branch: 'master'
+gem 'sparql-client', github: 'agroportal/sparql-client', branch: 'development'
+gem 'ncbo_annotator', github: 'agroportal/ncbo_annotator', branch: 'development'
 
 # Testing
 group :test do
@@ -61,3 +61,4 @@ gem "binding_of_caller", "~> 1.0"
 gem 'concurrent-ruby', '1.3.4'
 gem 'net-smtp'
 gem 'net-ftp'
+gem 'rubyzip', '= 1.3.0'

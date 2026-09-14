@@ -20,8 +20,6 @@ append :linked_files, "config/config.rb"
 # set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 set :linked_dirs, %w{logs vendor/bundle tmp/pids tmp/sockets public/system}
 
-# Default value for default_env is {}
-# set :default_env, { path: "/opt/ruby/bin:$PATH" }
 set :default_env, {
   'PATH' => "/usr/local/rbenv/shims:/usr/local/rbenv/bin:/usr/bin:$PATH"
 }
@@ -30,6 +28,8 @@ set :default_env, {
 set :keep_releases, 5
 set :config_folder_path, "#{fetch(:application)}/#{fetch(:stage)}"
 
+# set bundle options
+set :bundle_flags, "--verbose"
 
 # If you want to restart using `touch tmp/restart.txt`, add this to your config/deploy.rb:
 
@@ -39,9 +39,9 @@ set :config_folder_path, "#{fetch(:application)}/#{fetch(:stage)}"
 
 set :ssh_options, {
   user: 'ontoportal',
+  # forward_agent: 'true',
   # keys: %w(config/deploy_id_rsa),
   # auth_methods: %w(publickey),
-  # forward_agent: 'true',
   # proxy: Net::SSH::Proxy::Command.new("ssh #{JUMPBOX_PROXY} -W %h:%p")
 }
 
@@ -86,9 +86,11 @@ namespace :deploy do
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
       execute 'sudo systemctl restart ncbo_cron.service'
+      execute 'sleep 5'
     end
   end
 
   # after :updating, :get_config
   after :publishing, :restart
+
 end
